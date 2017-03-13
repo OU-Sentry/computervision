@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Mac file index
+.DS_Store
+
+# Vim swap files
+*.swp
