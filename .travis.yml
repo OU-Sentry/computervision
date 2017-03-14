@@ -6,4 +6,4 @@ services:
         - docker
 
 beforeinstall:
-        - docker build -t #docker image name and docker file here
+        - docker build -t sentry/py .
