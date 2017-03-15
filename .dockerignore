@@ -2,3 +2,5 @@
 .dockerignore
 .DS_Store
 *.md
+LICENSE
+Dockerfile

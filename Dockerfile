@@ -62,4 +62,8 @@ RUN mv cv2.cpython-35m-x86_64-linux-gnu.so cv2.so
 WORKDIR /usr/lib/python3/dist-packages
 RUN ln -s /usr/local/lib/python3.5/dist-packages/cv2.so cv2.so
 
+# add source files
+WORKDIR /root
+COPY . computervision/
+
 CMD ["bash"]
