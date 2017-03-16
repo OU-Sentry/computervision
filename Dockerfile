@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM armhf/ubuntu
 
 ARG OPENCV_VERISON="3.2.0"
 
@@ -31,8 +31,10 @@ WORKDIR /tmp
 RUN curl -O https://bootstrap.pypa.io/get-pip.py
 RUN python3 get-pip.py
 RUN pip3 install numpy
+RUN pip3 install imutils
 RUN python get-pip.py
 RUN pip install numpy
+RUN pip install imutils
 
 # download opencv
 RUN curl -sL https://github.com/Itseez/opencv/archive/$OPENCV_VERISON.tar.gz | tar xvz -C /tmp
@@ -56,11 +58,14 @@ RUN ldconfig
 
 # rename opencv output file
 WORKDIR /usr/local/lib/python3.5/dist-packages
-RUN mv cv2.cpython-35m-x86_64-linux-gnu.so cv2.so
+RUN mv cv2.cpython-35m-arm-linux-gnueabihf.so cv2.so
 
 # link OpenCV bindings into python env
 WORKDIR /usr/lib/python3/dist-packages
 RUN ln -s /usr/local/lib/python3.5/dist-packages/cv2.so cv2.so
+
+# do some cleanup
+RUN rm -rf /tmp/opencv-3.2.0/build
 
 # add source files
 WORKDIR /root
