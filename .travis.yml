@@ -13,7 +13,7 @@ services:
 
 before_install:
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  - docker build -t jdpleiness/armhf-sentrypi
+  - docker build -t jdpleiness/armhf-sentrypi .
   - docker ps
   - docker images
 
