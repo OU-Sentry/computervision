@@ -14,7 +14,11 @@ services:
 before_install:
   - docker build -t sentry/py .
   - docker ps
+  - docker images
 
 install: "pip install -r requirements.txt"
 
-script: pytest
+before_script:
+  - chmod +x ./test.sh
+script:
+  - ./test.sh
