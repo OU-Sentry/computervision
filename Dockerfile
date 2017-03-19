@@ -69,6 +69,6 @@ RUN rm -rf /tmp/opencv-3.2.0/build
 
 # add source files
 WORKDIR /root
-COPY . computervision/
+COPY ./src/ computervision/
 
 CMD ["bash"]
