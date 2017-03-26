@@ -1,40 +1,27 @@
-import os
 import time
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+from os import listdir
+from os import path
 
 
-class Watcher:
-
-    def __init__(self, watchdir):
-        self.observer = Observer()
+class Watcher():
+    def __init__(self, watchdir="."):
         self.watchdir = watchdir
+        self.files = {}
 
-    def run(self):
-        event_handler = Handler()
-        self.observer.schedule(event_handler, self.watchdir, recursive=True)
-        self.observer.start()
-        try:
-            while True:
-                time.sleep(5)
-        except:
-            self.observer.stop()
-            print("[INFO] stopping observer...")
+    def scan(self):
+        # scan over files in watchdir, update self.files accordingly
+        for f in listdir(self.watchdir):
+            if path.isfile(f):
+                self.files[f] = path.getmtime(f)
 
-        self.observer.join()
+    def checktime(self):
+        # scan over dict, compare time last modified with current time
+        # if delta is over n minutes, list of files to upload to S3
+        for key in self.files:
+            print(self.files[key])
 
 
-class Handler(FileSystemEventHandler):
-
-    @staticmethod
-    def on_any_event(event):
-        if event.is_directory:
-            return None
-
-        elif event.event_type == 'created':
-            # Take any action here when a file is first created.
-            print("Received created event - %s." % event.src_path)
-
-        elif event.event_type == 'modified':
-            # Taken any action here when a file is modified.
-            print("Received modified event - %s." % event.src_path)
+if __name__ == '__main__':
+    w = Watcher()
+    w.scan()
+    w.checktime()
