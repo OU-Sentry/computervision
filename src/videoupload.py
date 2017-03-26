@@ -3,10 +3,12 @@ import tinys3
 from os import environ
 from os import listdir
 from os import path
+from threading import Thread
 
 
-class Watcher():
+class Upload():
     def __init__(self, watchdir=".", delta=60):
+        self.stopped = False
         self.watchdir = watchdir
         self.files = {}
         self.delta = delta
@@ -21,21 +23,32 @@ class Watcher():
             if path.isfile(f):
                 self.files[f] = path.getmtime(f)
 
-    def checktime(self):
+    def upload(self):
         # scan over dict, compare time last modified with current time
         # if delta is over n minutes, list of files to upload to S3
         for key in self.files:
             if (time.time() - self.files[key]) >= self.delta:
-                print("here is one older than a minute ", key)
+                print("[INFO] uploading: ", key)
                 f = open(key, 'rb')
-                r = self.pool.upload(key, f)
-                while r.done() != True:
-                    time.sleep(5)
-                    print(r)
-                    print("waiting on upload")
+                self.pool.upload(key, f)
+
+    def run(self):
+        while True:
+            if self.stopped:
+                return
+
+            self.scan()
+            self.upload()
+            self.stop()
+
+    def start(self):
+        Thread(target=self.run, args=()).start()
+        return self
+
+    def stop(self):
+        self.stopped = True
 
 
 if __name__ == '__main__':
-    w = Watcher()
-    w.scan()
-    w.checktime()
+    w = Upload()
+    w.start()
