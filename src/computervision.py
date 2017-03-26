@@ -2,6 +2,8 @@ from eventrecording import EventDetection
 from imagestitching import Stitcher
 from motiondetection import MotionDetection
 from videostream import WebCamVideoStream
+from videoupload import Handler
+from videoupload import Monitor
 import argparse
 import datetime
 import numpy as np
@@ -27,6 +29,10 @@ camera1 = WebCamVideoStream(src=1).start()
 camera2 = WebCamVideoStream(src=0).start()
 time.sleep(1.00)
 print("[INFO] Cameras active")
+
+# initialize file monitoring for video files
+mon = Monitor()
+mon.run()
 
 # initialize image stitcher
 stitcher = Stitcher()
@@ -144,3 +150,4 @@ finally:
     cv2.destroyAllWindows()
     camera1.stop()
     camera2.stop()
+    mon.stop()
