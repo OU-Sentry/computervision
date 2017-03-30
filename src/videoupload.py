@@ -1,5 +1,4 @@
 import time
-import tinys3
 from os import environ
 from os import listdir
 from os import path
@@ -24,13 +23,8 @@ class Upload():
                 self.files[f] = path.getmtime(f)
 
     def upload(self):
-        # scan over dict, compare time last modified with current time
-        # if delta is over n minutes, list of files to upload to S3
-        for key in self.files:
-            if (time.time() - self.files[key]) >= self.delta:
-                print("[INFO] uploading: ", key)
-                f = open(key, 'rb')
-                self.pool.upload(key, f)
+        # TODO need to use awscli sync method to sync files
+        return
 
     def run(self):
         while True:
@@ -39,7 +33,9 @@ class Upload():
 
             self.scan()
             self.upload()
-            self.stop()
+
+            # have thread wait for time delta before running scan/upload again
+            time.sleep(self.delta)
 
     def start(self):
         Thread(target=self.run, args=()).start()

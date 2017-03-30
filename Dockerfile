@@ -67,6 +67,9 @@ RUN ln -s /usr/local/lib/python3.5/dist-packages/cv2.so cv2.so
 # do some cleanup
 RUN rm -rf /tmp/opencv-3.2.0/build
 
+#temp spot for python libraries
+RUN pip3 install awscli
+
 # add source files
 WORKDIR /root
 COPY ./src/ computervision/

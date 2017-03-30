@@ -2,8 +2,7 @@ from eventrecording import EventDetection
 from imagestitching import Stitcher
 from motiondetection import MotionDetection
 from videostream import WebCamVideoStream
-from videoupload import Handler
-from videoupload import Watcher
+from videoupload import Upload
 import argparse
 import datetime
 import numpy as np
@@ -31,8 +30,8 @@ time.sleep(1.00)
 print("[INFO] Cameras active")
 
 # initialize file monitoring for video files
-watcher = Watcher(args["output"])
-watcher.run()
+upload = Upload()
+upload.start()
 
 # initialize image stitcher
 stitcher = Stitcher()
