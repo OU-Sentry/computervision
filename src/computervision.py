@@ -135,9 +135,9 @@ try:
         cv2.putText(result, timestamp, (10, result.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 
         # show the output of the images
-#        cv2.imshow("result", result)
-#        cv2.imshow("left", camera2stream)
-#        cv2.imshow("right", camera1stream)
+        # cv2.imshow("result", result)
+        # v2.imshow("left", camera2stream)
+        # v2.imshow("right", camera1stream)
 
         # check to see if a key was pressed
         key = cv2.waitKey(1) & 0xFF
