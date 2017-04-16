@@ -11,7 +11,7 @@ class Upload():
 
     def upload(self):
         # run command to sync watchdir folder to aws s3
-        subprocess.run(["aws", "s3", "sync", self.watchdir, "s3://sentryvideouploads"])
+        subprocess.run(["aws", "s3", "sync", self.watchdir, "s3://sentryvideostorage"])
 
     def run(self):
         while True:
