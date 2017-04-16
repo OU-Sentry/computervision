@@ -11,8 +11,8 @@ import imutils
 import cv2
 
 arg = argparse.ArgumentParser()
-arg.add_argument("-o", "--output", help="path to output video file")
-arg.add_argument("-f", "--fps", type=int, default=30,
+arg.add_argument("-o", "--output", default="/pi/videos/", help="path to output video file")
+arg.add_argument("-f", "--fps", type=int, default=15,
                  help="FPS of output video")
 arg.add_argument("-b", "--buffer-size", type=int, default=60,
                  help="buffer size of video clip writer")

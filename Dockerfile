@@ -70,8 +70,13 @@ RUN rm -rf /tmp/opencv-3.2.0/build
 # temp spot for python libraries
 RUN pip3 install awscli
 
+# Set AWS creds:
+ENV AWS_ACCESS_KEY_ID="AKIAJK2DZJYL5CVG4SIQ"
+ENV AWS_SECRET_ACCESS_KEY="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"
+
 # add source files
 WORKDIR /root
 COPY ./src/ computervision/
+WORKDIR /root/computervision/
 
-CMD ["bash"]
+CMD ["python3", "computervision.py"]

@@ -4,5 +4,5 @@ services:
     restart: always
     image: jdpleiness/armhf-sentrypi 
     environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_ACCESS_KEY_ID="AKIAJK2DZJYL5CVG4SIQ"
+      - AWS_SECRET_ACCESS_KEY="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"

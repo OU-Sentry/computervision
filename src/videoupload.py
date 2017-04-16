@@ -4,7 +4,7 @@ from threading import Thread
 
 
 class Upload():
-    def __init__(self, watchdir=".", delta=60):
+    def __init__(self, watchdir="/pi/videos", delta=60):
         self.stopped = False
         self.watchdir = watchdir
         self.delta = delta

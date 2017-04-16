@@ -3,7 +3,7 @@ import cv2
 
 
 class MotionDetection:
-    def __init__(self, accum_weight=0.5, delta_thresh=4, min_area=500):
+    def __init__(self, accum_weight=0.5, delta_thresh=6, min_area=500):
         # larger the delta thresh, the less motion will be detected. Default 5
         self.isv2 = imutils.is_cv2()
         self.accum_weight = accum_weight
