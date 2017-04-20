@@ -1,8 +1,8 @@
-from . import eventrecording
-from . import imagestitching
-from . import motiondetection
-from . import videostream
-from . import videoupload
+from cameralib import eventrecording
+from cameralib import imagestitching
+from cameralib import motiondetection
+from cameralib import videostream
+from cameralib import videoupload
 import argparse
 import datetime
 import numpy as np

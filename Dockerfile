@@ -76,7 +76,7 @@ ENV AWS_SECRET_ACCESS_KEY="Sh8G2TP8ZLQBbEP2U4zpr8owi/Gwar5aHEkXA8tC"
 
 # add source files
 WORKDIR /root
-COPY ./src/ computervision/
-WORKDIR /root/computervision/
+COPY ./cameralib/ cameralib/
+COPY ./computervision.py computervision.py
 
 CMD ["python3", "computervision.py"]
