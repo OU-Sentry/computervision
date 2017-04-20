@@ -1,8 +1,8 @@
-from .eventrecording import EventDetection
-from .imagestitching import Stitcher
-from .motiondetection import MotionDetection
-from .videostream import WebCamVideoStream
-from .videoupload import Upload
+from src.eventrecording import EventDetection
+from src.imagestitching import Stitcher
+from src.motiondetection import MotionDetection
+from src.videostream import WebCamVideoStream
+from src.videoupload import Upload
 import argparse
 import datetime
 import numpy as np

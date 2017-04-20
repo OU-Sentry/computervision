@@ -31,7 +31,7 @@ class MotionDetection:
         # threshold the delta image and apply some dilations to help
         # fill in some holes
         thresh = cv2.threshold(frame_delta, self.delta_thresh,
-                                255, cv2.THRESH_BINARY)[1]
+                               255, cv2.THRESH_BINARY)[1]
         thresh = cv2.dilate(thresh, None, iterations=2)
 
         # find the contours in the threshold image
