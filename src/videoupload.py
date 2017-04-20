@@ -3,7 +3,7 @@ import time
 from threading import Thread
 
 
-class Upload():
+class Upload:
     def __init__(self, watchdir="/pi/videos", delta=60):
         self.stopped = False
         self.watchdir = watchdir
@@ -33,4 +33,7 @@ class Upload():
 
 if __name__ == '__main__':
     w = Upload()
-    w.start()
+    try:
+        w.start()
+    finally:
+        w.stop()

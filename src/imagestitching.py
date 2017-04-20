@@ -2,41 +2,37 @@ import numpy as np
 import imutils
 import cv2
 
+
 class Stitcher:
     def __init__(self):
         self.isv3 = imutils.is_cv3()
-        self.cachedH = None
+        self.cachedh = None
 
-    def stitch(self, images, ratio=0.75, reprojThresh=4.0, showMatches=False):
+    def stitch(self, images, ratio=0.75, reprojthresh=4.0):
         # unpack the images
         (imageB, imageA) = images
 
-        if self.cachedH is None:
-            (kpsA, featuresA) = self.detectAndDescribe(imageA)
-            (kpsB, featuresB) = self.detectAndDescribe(imageB)
+        if self.cachedh is None:
+            (kpsA, featuresA) = self.detectanddescribe(imageA)
+            (kpsB, featuresB) = self.detectanddescribe(imageB)
 
             # match features between the two images
-            M = self.matchKeypoints(kpsA, kpsB, featuresA, featuresB, ratio, reprojThresh)
+            M = self.matchkeypoints(kpsA, kpsB, featuresA, featuresB, ratio, reprojthresh)
 
             # if there are no matches
             if M is None:
                 return None
 
-            self.cachedH = M[1]
+            self.cachedh = M[1]
 
         # if there are matches, apply a perspective warp
         # (matches, H, status) = M
-        result = cv2.warpPerspective(imageA, self.cachedH, (imageA.shape[1] + imageB.shape[1], imageA.shape[0]))
+        result = cv2.warpPerspective(imageA, self.cachedh, (imageA.shape[1] + imageB.shape[1], imageA.shape[0]))
         result[0:imageB.shape[0], 0:imageB.shape[1]] = imageB
-
-        # check to see if the key point matches should be visualized
-        if showMatches:
-            vis = self.drawMatches(imageA, imageB, kpsA, kpsB, matches, status)
-            return (result, vis)
 
         return result
 
-    def detectAndDescribe(self, image):
+    def detectanddescribe(self, image):
         # convert image to gray scale
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -53,7 +49,7 @@ class Stitcher:
 
         return (kps, features)
 
-    def matchKeypoints(self, kpsA, kpsB, featuresA, featuresB, ratio, reprojThresh):
+    def matchkeypoints(self, kpsA, kpsB, featuresA, featuresB, ratio, reprojthresh):
         # compute the raw matches and initialize a list of the actual matches
         matcher = cv2.DescriptorMatcher_create("BruteForce")
         rawMatches = matcher.knnMatch(featuresA, featuresB, 2)
@@ -71,7 +67,7 @@ class Stitcher:
             ptsB = np.float32([kpsB[i] for (i, _) in matches])
 
             # compute the homography between the two points
-            (H, status) = cv2.findHomography(ptsA, ptsB, cv2.RANSAC, reprojThresh)
+            (H, status) = cv2.findHomography(ptsA, ptsB, cv2.RANSAC, reprojthresh)
 
             # return the matches, the homography matrix, and the status of the matches
             return (matches, H, status)

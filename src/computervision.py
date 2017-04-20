@@ -30,7 +30,7 @@ time.sleep(1.00)
 print("[INFO] Cameras active")
 
 # initialize file monitoring for video files
-upload = Upload()
+upload = Upload(args["output"])
 
 # initialize image stitcher
 stitcher = Stitcher()
@@ -38,10 +38,10 @@ stitcher = Stitcher()
 motion = MotionDetection()
 
 # initialize event detection writer
-eventdetection = EventDetection(bufSize=args["buffer_size"])
+eventdetection = EventDetection(bufsize=args["buffer_size"])
 
 # set number of frames where no even has occurred to zero
-consecFrames = 0
+consecframes = 0
 
 # set counter for total number of frames
 totalframes = 0
@@ -104,7 +104,7 @@ try:
                           (0, 0, 255), 3)
 
             text = "Detected"
-            consecFrames = 0
+            consecframes = 0
             updateconsecframes = False
 
             # if we are not yet saving frames to a file, start now
@@ -120,13 +120,13 @@ try:
 
         # if no event occured
         if updateconsecframes:
-            consecFrames += 1
+            consecframes += 1
 
         # update the key frame clip buffer
         eventdetection.update(result)
 
         # if we are recording and no motion has taken place within the buffer size
-        if eventdetection.recording and consecFrames == args["buffer_size"]:
+        if eventdetection.recording and consecframes == args["buffer_size"]:
             eventdetection.finish()
 
         totalframes += 1
@@ -140,10 +140,6 @@ try:
         # v2.imshow("left", camera2stream)
         # v2.imshow("right", camera1stream)
 
-        # check to see if a key was pressed
-        key = cv2.waitKey(1) & 0xFF
-        if key == ord("q"):
-            break
 finally:
     # clean up camera connections
     print("[INFO] shutting down cameras...")
