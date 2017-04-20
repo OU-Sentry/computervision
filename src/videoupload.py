@@ -33,4 +33,7 @@ class Upload():
 
 if __name__ == '__main__':
     w = Upload()
-    w.start()
+    try:
+        w.start()
+    finally:
+        w.stop()
