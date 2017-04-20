@@ -2,12 +2,13 @@ import numpy as np
 import imutils
 import cv2
 
+
 class Stitcher:
     def __init__(self):
         self.isv3 = imutils.is_cv3()
         self.cachedH = None
 
-    def stitch(self, images, ratio=0.75, reprojThresh=4.0, showMatches=False):
+    def stitch(self, images, ratio=0.75, reprojThresh=4.0):
         # unpack the images
         (imageB, imageA) = images
 
@@ -28,11 +29,6 @@ class Stitcher:
         # (matches, H, status) = M
         result = cv2.warpPerspective(imageA, self.cachedH, (imageA.shape[1] + imageB.shape[1], imageA.shape[0]))
         result[0:imageB.shape[0], 0:imageB.shape[1]] = imageB
-
-        # check to see if the key point matches should be visualized
-        if showMatches:
-            vis = self.drawMatches(imageA, imageB, kpsA, kpsB, matches, status)
-            return (result, vis)
 
         return result
 
