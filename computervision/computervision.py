@@ -1,8 +1,8 @@
-from src.eventrecording import EventDetection
-from src.imagestitching import Stitcher
-from src.motiondetection import MotionDetection
-from src.videostream import WebCamVideoStream
-from src.videoupload import Upload
+from . import eventrecording
+from . import imagestitching
+from . import motiondetection
+from . import videostream
+from . import videoupload
 import argparse
 import datetime
 import numpy as np
@@ -24,21 +24,21 @@ args = vars(arg.parse_args())
 # camera one must be on the right and camera two must be on the left
 # for image stitching to work!
 print("[INFO] warming up the camera...")
-camera1 = WebCamVideoStream(src=1).start()
-camera2 = WebCamVideoStream(src=0).start()
+camera1 = videostream.WebCamVideoStream(src=1).start()
+camera2 = videostream.WebCamVideoStream(src=0).start()
 time.sleep(1.00)
 print("[INFO] Cameras active")
 
 # initialize file monitoring for video files
-upload = Upload(args["output"])
+upload = videoupload.Upload(args["output"])
 
 # initialize image stitcher
-stitcher = Stitcher()
+stitcher = imagestitching.Stitcher()
 # initialize motion detection from the camera input/inputs
-motion = MotionDetection()
+motion = motiondetection.MotionDetection()
 
 # initialize event detection writer
-eventdetection = EventDetection(bufSize=args["buffer_size"])
+eventdetection = eventrecording.EventDetection(bufSize=args["buffer_size"])
 
 # set number of frames where no even has occurred to zero
 consecFrames = 0
