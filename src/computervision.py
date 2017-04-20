@@ -31,7 +31,6 @@ print("[INFO] Cameras active")
 
 # initialize file monitoring for video files
 upload = Upload()
-upload.start()
 
 # initialize image stitcher
 stitcher = Stitcher()
@@ -49,6 +48,8 @@ totalframes = 0
 
 # use try/finally to make sure calls to stop threads are executed
 try:
+    # start upload thread
+    upload.start()
     # loop over feed from the camera or the video file
     while True:
         # initialize a list of frames that have been processed
@@ -149,3 +150,4 @@ finally:
     cv2.destroyAllWindows()
     camera1.stop()
     camera2.stop()
+    upload.stop()
