@@ -48,9 +48,6 @@ try:
     # loop over feed from the camera or the video file
     while True:
 
-        # text to be displayed on window of video
-        text = "Not Detected"
-
         updateconsecframes = True
 
         camera1stream = camera1.read()
@@ -95,7 +92,6 @@ try:
             cv2.rectangle(result, (minX, minY), (maxX, maxY),
                           (0, 0, 255), 3)
 
-            text = "Detected"
             consecFrames = 0
             updateconsecframes = False
 
@@ -119,10 +115,6 @@ try:
             eventdetection.finish()
 
         totalframes += 1
-        timestamp = datetime.datetime.now()
-        timestamp = timestamp.strftime("%A %d %B %Y %I:%M:%S%p")
-
-        cv2.putText(result, timestamp, (10, result.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 
         # show the output of the images
         if args["visual"] is True:
