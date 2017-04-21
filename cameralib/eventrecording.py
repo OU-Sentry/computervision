@@ -6,12 +6,12 @@ import cv2
 
 
 class EventDetection:
-    def __init__(self, bufSize=64, timeout=1.0):
-        self.bufSize = bufSize
+    def __init__(self, bufsize=64, timeout=1.0):
+        self.bufsize = bufsize
         self.timeout = timeout
 
         # create a buffer named frames and a queue for said buffer
-        self.frames = deque(maxlen=bufSize)
+        self.frames = deque(maxlen=self.bufsize)
         self.Q = None
 
         # create a video writer, writer thread, and bool for recording
@@ -32,7 +32,7 @@ class EventDetection:
 
         # start the video writer and initialize the queue of frames that need to be written to file
         self.writer = cv2.VideoWriter(outputPath, fourcc, fps,
-            (self.frames[0].shape[1], self.frames[0].shape[0]), True)
+                                      (self.frames[0].shape[1], self.frames[0].shape[0]), True)
         self.Q = Queue()
 
         # add frames from dequeue to the queue
