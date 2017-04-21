@@ -23,7 +23,7 @@ args = vars(arg.parse_args())
 
 # camera one must be on the right and camera two must be on the left
 print("[INFO] warming up the camera...")
-camera1 = videostream.WebCamVideoStream(src=0).start()
+camera1 = videostream.WebCamVideoStream(src=1).start()
 camera2 = videostream.WebCamVideoStream(src=0).start()
 time.sleep(1.00)
 print("[INFO] Cameras active")
