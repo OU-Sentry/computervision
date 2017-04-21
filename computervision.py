@@ -48,7 +48,7 @@ try:
     # loop over feed from the camera or the video file
     while True:
 
-        updateconsecframes = True
+        motiondetected = False
 
         camera1stream = camera1.read()
         camera2stream = camera2.read()
@@ -93,7 +93,7 @@ try:
                           (0, 0, 255), 3)
 
             consecFrames = 0
-            updateconsecframes = False
+            motiondetected = True
 
             # if we are not yet saving frames to a file, start now
             if not eventdetection.recording:
@@ -103,8 +103,8 @@ try:
                 eventdetection.start(p, cv2.VideoWriter_fourcc(*args["codec"]),
                                      args["fps"])
 
-        # if no event occured
-        if updateconsecframes:
+        # if no event was detected
+        if not motiondetected:
             consecFrames += 1
 
         # update the key frame clip buffer
