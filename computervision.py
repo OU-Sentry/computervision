@@ -14,11 +14,10 @@ arg.add_argument("-b", "--buffer-size", type=int, default=60,
                  help="buffer size of video clip writer")
 arg.add_argument("-c", "--codec", type=str, default="MJPG",
                  help="codec of output file")
+arg.add_argument("-v", "--visual", default=False, type=bool, help="Visualize output of cameras")
 args = vars(arg.parse_args())
 
-# captures on camera zero what ever that may be
 # camera one must be on the right and camera two must be on the left
-# for image stitching to work!
 print("[INFO] warming up the camera...")
 camera1 = cameralib.videostream.WebCamVideoStream(src=1).start()
 camera2 = cameralib.videostream.WebCamVideoStream(src=0).start()
@@ -30,6 +29,7 @@ upload = cameralib.videoupload.Upload(args["output"])
 
 # initialize image stitcher
 stitcher = cameralib.imagestitching.Stitcher()
+
 # initialize motion detection from the camera input/inputs
 motion = cameralib.motiondetection.MotionDetection()
 
@@ -47,8 +47,6 @@ try:
     upload.start()
     # loop over feed from the camera or the video file
     while True:
-        # initialize a list of frames that have been processed
-        frames = []
 
         # text to be displayed on window of video
         text = "Not Detected"
@@ -77,7 +75,6 @@ try:
 
         # allow motion detection to accumulate set of frames for better avg
         if totalframes < 32:
-            frames.append(result)
             totalframes += 1
             continue
 
@@ -110,9 +107,6 @@ try:
                 eventdetection.start(p, cv2.VideoWriter_fourcc(*args["codec"]),
                                      args["fps"])
 
-        # update the frames list
-        frames.append(result)
-
         # if no event occured
         if updateconsecframes:
             consecFrames += 1
@@ -131,14 +125,11 @@ try:
         cv2.putText(result, timestamp, (10, result.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 
         # show the output of the images
-        # cv2.imshow("result", result)
-        # v2.imshow("left", camera2stream)
-        # v2.imshow("right", camera1stream)
+        if args["visual"] is True:
+            cv2.imshow("result", result)
+            cv2.imshow("left", camera2stream)
+            cv2.imshow("right", camera1stream)
 
-        # check to see if a key was pressed
-        key = cv2.waitKey(1) & 0xFF
-        if key == ord("q"):
-            break
 finally:
     # clean up camera connections
     print("[INFO] shutting down cameras...")
