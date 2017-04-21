@@ -12,7 +12,7 @@ import cv2
 
 arg = argparse.ArgumentParser()
 arg.add_argument("-o", "--output", default="/pi/videos/", help="path to output video file")
-arg.add_argument("-f", "--fps", type=int, default=15,
+arg.add_argument("-f", "--fps", type=int, default=60,
                  help="FPS of output video")
 arg.add_argument("-b", "--buffer-size", type=int, default=60,
                  help="buffer size of video clip writer")
@@ -23,7 +23,7 @@ args = vars(arg.parse_args())
 
 # camera one must be on the right and camera two must be on the left
 print("[INFO] warming up the camera...")
-camera1 = videostream.WebCamVideoStream(src=1).start()
+camera1 = videostream.WebCamVideoStream(src=0).start()
 camera2 = videostream.WebCamVideoStream(src=0).start()
 time.sleep(1.00)
 print("[INFO] Cameras active")
@@ -76,6 +76,9 @@ try:
 
         # allow motion detection to accumulate set of frames for better avg
         if totalframes < 32:
+            # start pre-loading queue of frames
+            eventdetection.update(result)
+            
             totalframes += 1
             continue
 
@@ -132,5 +135,7 @@ finally:
     cv2.destroyAllWindows()
     camera1.stop()
     camera2.stop()
+    print("[INFO] stopping video recording...")
     eventdetection.finish()
+    print("[INFO] stopping file uploads...")
     # upload.stop()
