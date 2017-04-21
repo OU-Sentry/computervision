@@ -32,7 +32,7 @@ class EventDetection:
 
         # start the video writer and initialize the queue of frames that need to be written to file
         self.writer = cv2.VideoWriter(outputPath, fourcc, fps,
-            (self.frames[0].shape[1], self.frames[0].shape[0]), True)
+                                      (self.frames[0].shape[1], self.frames[0].shape[0]), True)
         self.Q = Queue()
 
         # add frames from dequeue to the queue

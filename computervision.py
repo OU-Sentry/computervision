@@ -1,4 +1,8 @@
-import cameralib
+from cameralib import videostream
+from cameralib import videoupload
+from cameralib import imagestitching
+from cameralib import motiondetection
+from cameralib import eventrecording
 import argparse
 import datetime
 import numpy as np
@@ -19,22 +23,22 @@ args = vars(arg.parse_args())
 
 # camera one must be on the right and camera two must be on the left
 print("[INFO] warming up the camera...")
-camera1 = cameralib.videostream.WebCamVideoStream(src=1).start()
-camera2 = cameralib.videostream.WebCamVideoStream(src=0).start()
+camera1 = videostream.WebCamVideoStream(src=1).start()
+camera2 = videostream.WebCamVideoStream(src=0).start()
 time.sleep(1.00)
 print("[INFO] Cameras active")
 
 # initialize file monitoring for video files
-upload = cameralib.videoupload.Upload(args["output"])
+upload = videoupload.Upload(args["output"])
 
 # initialize image stitcher
-stitcher = cameralib.imagestitching.Stitcher()
+stitcher = imagestitching.Stitcher()
 
 # initialize motion detection from the camera input/inputs
-motion = cameralib.motiondetection.MotionDetection()
+motion = motiondetection.MotionDetection()
 
 # initialize event detection writer
-eventdetection = cameralib.eventrecording.EventDetection(bufSize=args["buffer_size"])
+eventdetection = eventrecording.EventDetection(bufSize=args["buffer_size"])
 
 # set number of frames where no even has occurred to zero
 consecFrames = 0
@@ -44,7 +48,7 @@ totalframes = 0
 
 # use try/finally to make sure calls to stop threads are executed
 try:
-    upload.start()
+    #upload.start()
     # loop over feed from the camera or the video file
     while True:
 
@@ -128,4 +132,4 @@ finally:
     cv2.destroyAllWindows()
     camera1.stop()
     camera2.stop()
-    upload.stop()
+    #upload.stop()
