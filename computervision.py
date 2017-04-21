@@ -38,7 +38,7 @@ stitcher = imagestitching.Stitcher()
 motion = motiondetection.MotionDetection()
 
 # initialize event detection writer
-eventdetection = eventrecording.EventDetection(bufSize=args["buffer_size"])
+eventdetection = eventrecording.EventDetection(bufsize=args["buffer_size"])
 
 # set number of frames where no even has occurred to zero
 consecFrames = 0
