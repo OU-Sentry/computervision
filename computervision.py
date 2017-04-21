@@ -41,14 +41,14 @@ motion = motiondetection.MotionDetection()
 eventdetection = eventrecording.EventDetection(bufsize=args["buffer_size"])
 
 # set number of frames where no even has occurred to zero
-consecFrames = 0
+consecframes = 0
 
 # set counter for total number of frames
 totalframes = 0
 
 # use try/finally to make sure calls to stop threads are executed
 try:
-    #upload.start()
+    # upload.start()
     # loop over feed from the camera or the video file
     while True:
 
@@ -68,7 +68,7 @@ try:
             print("[INFO] homography could not be computed... ")
             break
 
-        # convert the frame to grayscale and blur it slightly
+        # convert the frame to gray scale and blur it slightly
         # update the motion detector as well
         gray = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (21, 21), 0)
@@ -96,26 +96,26 @@ try:
             cv2.rectangle(result, (minX, minY), (maxX, maxY),
                           (0, 0, 255), 3)
 
-            consecFrames = 0
+            consecframes = 0
             motiondetected = True
 
             # if we are not yet saving frames to a file, start now
             if not eventdetection.recording:
                 timestamp = datetime.datetime.now()
-                p = "{}/{}.avi".format(args["output"],
-                                       timestamp.strftime("%Y%m%d-%H%M%S"))
-                eventdetection.start(p, cv2.VideoWriter_fourcc(*args["codec"]),
+                path = "{}/{}.avi".format(args["output"],
+                                          timestamp.strftime("%Y%m%d-%H%M%S"))
+                eventdetection.start(path, cv2.VideoWriter_fourcc(*args["codec"]),
                                      args["fps"])
 
         # if no event was detected
         if not motiondetected:
-            consecFrames += 1
+            consecframes += 1
 
         # update the key frame clip buffer
         eventdetection.update(result)
 
         # if we are recording and no motion has taken place within the buffer size
-        if eventdetection.recording and consecFrames == args["buffer_size"]:
+        if eventdetection.recording and consecframes == args["buffer_size"]:
             eventdetection.finish()
 
         totalframes += 1
@@ -132,4 +132,5 @@ finally:
     cv2.destroyAllWindows()
     camera1.stop()
     camera2.stop()
-    #upload.stop()
+    eventdetection.finish()
+    # upload.stop()
