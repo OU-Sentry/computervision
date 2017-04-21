@@ -48,7 +48,7 @@ totalframes = 0
 
 # use try/finally to make sure calls to stop threads are executed
 try:
-    # upload.start()
+    upload.start()
     # loop over feed from the camera or the video file
     while True:
 
@@ -78,7 +78,7 @@ try:
         if totalframes < 32:
             # start pre-loading queue of frames
             eventdetection.update(result)
-            
+
             totalframes += 1
             continue
 
@@ -138,4 +138,4 @@ finally:
     print("[INFO] stopping video recording...")
     eventdetection.finish()
     print("[INFO] stopping file uploads...")
-    # upload.stop()
+    upload.stop()
