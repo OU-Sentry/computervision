@@ -32,9 +32,11 @@ RUN curl -O https://bootstrap.pypa.io/get-pip.py
 RUN python3 get-pip.py
 RUN pip3 install numpy
 RUN pip3 install imutils
+RUN pip3 install awscli
 RUN python get-pip.py
 RUN pip install numpy
 RUN pip install imutils
+
 
 # download opencv
 RUN curl -sL https://github.com/Itseez/opencv/archive/$OPENCV_VERISON.tar.gz | tar xvz -C /tmp
@@ -66,13 +68,6 @@ RUN ln -s /usr/local/lib/python3.5/dist-packages/cv2.so cv2.so
 
 # do some cleanup
 RUN rm -rf /tmp/opencv-3.2.0/build
-
-# temp spot for python libraries
-RUN pip3 install awscli
-
-# Set AWS creds:
-ENV AWS_ACCESS_KEY_ID="AKIAJK2DZJYL5CVG4SIQ"
-ENV AWS_SECRET_ACCESS_KEY="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"
 
 # add source files
 WORKDIR /root
