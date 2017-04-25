@@ -12,7 +12,7 @@ import cv2
 
 arg = argparse.ArgumentParser()
 arg.add_argument("-o", "--output", default="/pi/videos/", help="path to output video file")
-arg.add_argument("-f", "--fps", type=int, default=60,
+arg.add_argument("-f", "--fps", type=int, default=20,
                  help="FPS of output video")
 arg.add_argument("-b", "--buffer-size", type=int, default=60,
                  help="buffer size of video clip writer")
